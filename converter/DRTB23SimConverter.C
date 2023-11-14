@@ -202,7 +202,8 @@ void DRTB23SimConverter(const string run)
   simtree->SetBranchAddress("NofCherDet", &Ctot);
   double PSdep;
   simtree->SetBranchAddress("PSEnergy", &PSdep);
-  //        double PSScidep; simtree->SetBranchAddress( "PShower", &PSScidep );
+  double PSScindep;
+  simtree->SetBranchAddress("PSSciEnergy", &PSScindep);
   double beamX;
   simtree->SetBranchAddress("PrimaryX", &beamX);
   double beamY;
@@ -242,7 +243,7 @@ void DRTB23SimConverter(const string run)
     ev->CPMT8 = CPMT->at(6);
     //
     //    evout->PShower = PSScidep*69.8151951+210;
-    evout->PShower = 0.;
+    evout->PShower = PSScindep;
     evout->PShowerall = PSdep;
     evout->MCounter = 0.;
     evout->C1 = 90.;
