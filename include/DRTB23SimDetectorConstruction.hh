@@ -20,6 +20,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4TwoVector.hh"
 #include "G4ExtrudedSolid.hh"
+#include "G4RunManager.hh"
 
 //Includers from project files
 //
@@ -83,10 +84,22 @@ class DRTB23SimDetectorConstruction : public G4VUserDetectorConstruction {
 
         //Setters
         //
-        void SetXshift(const G4double& val) {fXshift=val;};
-        void SetYshift(const G4double& val) {fYshift=val;};
-        void SetOrzrot(const G4double& val) {fOrzrot=val;};
-        void SetVerrot(const G4double& val) {fVerrot=val;};
+        void SetXshift(const G4double& val) {
+            fXshift=val;
+            G4RunManager::GetRunManager()->ReinitializeGeometry();
+        };
+        void SetYshift(const G4double& val) {
+            fYshift=val;
+            G4RunManager::GetRunManager()->ReinitializeGeometry();
+        };
+        void SetOrzrot(const G4double& val) {
+            fOrzrot=val;
+            G4RunManager::GetRunManager()->ReinitializeGeometry();
+        };
+        void SetVerrot(const G4double& val) {
+            fVerrot=val;
+            G4RunManager::GetRunManager()->ReinitializeGeometry();
+        };
 
 	//Build contour in x-y plane of a module as 
 	//an hexcell shape
