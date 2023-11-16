@@ -14,6 +14,7 @@
 #include "G4UImessenger.hh"
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithADoubleAndUnit.hh"
+#include "G4UIcmdWithoutParameter.hh"
 
 //Includers from project files
 //
@@ -37,6 +38,7 @@ class DRTB23SimGeoMessenger final : public G4UImessenger {
         G4UIcmdWithADoubleAndUnit *fYshiftcmd;
         G4UIcmdWithADoubleAndUnit *fOrzrotcmd;
         G4UIcmdWithADoubleAndUnit *fVerrotcmd;
+        G4UIcmdWithoutParameter   *fUpdatecmd;
 
 };
 

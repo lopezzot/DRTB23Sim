@@ -42,6 +42,7 @@
 #include "G4TwoVector.hh"
 #include "G4SubtractionSolid.hh"
 #include "G4UnionSolid.hh"
+#include "G4RunManager.hh"
 
 //Messenger constructor
 //
@@ -74,6 +75,9 @@ DRTB23SimGeoMessenger::DRTB23SimGeoMessenger(DRTB23SimDetectorConstruction* DetC
     fVerrotcmd->SetGuidance("Lift up calorimeter from back side (default deg)");
     fVerrotcmd->SetDefaultUnit("deg");
     fVerrotcmd->SetDefaultValue(0.);
+    fUpdatecmd = new G4UIcmdWithoutParameter("/tbgeo/updategeo", this);
+    fUpdatecmd->SetGuidance("Update geometry with new parameters");
+    fUpdatecmd->AvailableForStates( G4State_Idle );
 }
 
 //Messenger destructor
@@ -108,6 +112,10 @@ void DRTB23SimGeoMessenger::SetNewValue(G4UIcommand* command, G4String newValue)
     else if(command == fVerrotcmd){
         fDetConstruction->SetVerrot(fVerrotcmd->GetNewDoubleValue(newValue));
         G4cout<<"tbgeo: ver-rotated test-beam setup by "<<fDetConstruction->GetVerrot()<<" rad"<<G4endl;
+    }
+    else if(command == fUpdatecmd){
+        fDetConstruction->UpdateGeometry();
+        G4cout<<"tbgeo: geometry updated (call to ReinitializeGeometry)"<<G4endl;
     }
 }
 
@@ -1148,6 +1156,10 @@ std::vector<G4TwoVector> DRTB23SimDetectorConstruction::calcmod(double radius, i
      polygon1[i].set(-xp[i]+moduleX/2.-radius,yp[i]-moduleY/2.);
    }
    return polygon1;
+}
+
+void DRTB23SimDetectorConstruction::UpdateGeometry(){
+    G4RunManager::GetRunManager()->ReinitializeGeometry();
 }
 
 //**************************************************
