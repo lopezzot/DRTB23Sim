@@ -15,6 +15,7 @@
 //
 #include "G4UserEventAction.hh"
 #include "globals.hh"
+#include "Randomize.hh"
 
 //Includers from C++
 //
@@ -67,6 +68,9 @@ class DRTB23SimEventAction : public G4UserEventAction {
     	//Fill vector of signals in Cherenkov PMTs
         //
 	void AddVecCPMT(G4int PMTID, G4double de);
+        //Add PMT noise (to be used at the end of event)
+        //
+        void AddPMTNoise();
 
     private:
         G4double  EnergyScin; //Energy in scintillating fibers
@@ -152,6 +156,19 @@ inline void DRTB23SimEventAction::AddPSEnergy(G4double de){
 
 inline void DRTB23SimEventAction::AddPSSciEnergy(G4double de){
     PSSciEnergy += de;
+}
+
+inline void DRTB23SimEventAction::AddPMTNoise(){
+
+    //Considering 30 MeV rms
+    //equivalent to 8.52 ph.e S and 2.058 ph.e. C
+    //
+    const double Snoise_rms = 8.52;
+    const double Cnoise_rms = 2.058;
+    for(int i=1; i<9; i++){
+        VecSPMT[i] += G4RandGauss::shoot(0.,Snoise_rms);
+        VecCPMT[i] += G4RandGauss::shoot(0.,Cnoise_rms);
+    }
 }
 
 #endif

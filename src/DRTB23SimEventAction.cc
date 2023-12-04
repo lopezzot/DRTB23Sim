@@ -90,13 +90,17 @@ void DRTB23SimEventAction::EndOfEventAction(const G4Event* ) {
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
     //Add all p.e. in Scin and Cher fibers
-    //
+    //(not affected by noise)
     NofScinDet = std::accumulate(VecSPMT.begin(),VecSPMT.end(),0);
     NofCherDet = std::accumulate(VecCPMT.begin(),VecCPMT.end(),0);
 
     //Add to EnergyTot the energies in towers
     //
     EnergyTot = std::accumulate(VecTowerE.begin(),VecTowerE.end(),0.);
+
+    //Add PMT noise at the end of event
+    //
+    AddPMTNoise();
 
     //Fill ntuple event by event
     //entries with vectors are automatically filled
