@@ -225,22 +225,22 @@ void DRTB23SimConverter(const string run)
 
     // Fill ev data members
     //
-    ev->SPMT1 = SPMT->at(3);
+    ev->SPMT1 = SPMT->at(1);
     ev->SPMT2 = SPMT->at(2);
-    ev->SPMT3 = SPMT->at(1);
-    ev->SPMT4 = SPMT->at(5);
-    ev->SPMT5 = SPMT->at(4);
-    ev->SPMT6 = SPMT->at(8);
+    ev->SPMT3 = SPMT->at(3);
+    ev->SPMT4 = SPMT->at(4);
+    ev->SPMT5 = SPMT->at(5);
+    ev->SPMT6 = SPMT->at(6);
     ev->SPMT7 = SPMT->at(7);
-    ev->SPMT8 = SPMT->at(6);
-    ev->CPMT1 = CPMT->at(3);
+    ev->SPMT8 = SPMT->at(8);
+    ev->CPMT1 = CPMT->at(1);
     ev->CPMT2 = CPMT->at(2);
-    ev->CPMT3 = CPMT->at(1);
-    ev->CPMT4 = CPMT->at(5);
-    ev->CPMT5 = CPMT->at(4);
-    ev->CPMT6 = CPMT->at(8);
+    ev->CPMT3 = CPMT->at(3);
+    ev->CPMT4 = CPMT->at(4);
+    ev->CPMT5 = CPMT->at(5);
+    ev->CPMT6 = CPMT->at(6);
     ev->CPMT7 = CPMT->at(7);
-    ev->CPMT8 = CPMT->at(6);
+    ev->CPMT8 = CPMT->at(8);
     //
     //    evout->PShower = PSScidep*69.8151951+210;
     evout->PShower = PSScindep;
@@ -248,9 +248,9 @@ void DRTB23SimConverter(const string run)
     evout->MCounter = 0.;
     evout->C1 = 90.;
     evout->C2 = 30.;
-    evout->XDWC1 = beamX;
+    evout->XDWC1 = -1.*beamX; //invert X coordinate for comparison with tb
     evout->YDWC1 = beamY;
-    evout->XDWC2 = beamX;
+    evout->XDWC2 = -1.*beamX; //invert X coordinate for comparison with tb
     evout->YDWC2 = beamY;
     evout->EnergyTot = edep;
     evout->EscapedEnergy = lenergy;
@@ -259,7 +259,8 @@ void DRTB23SimConverter(const string run)
     }
     for (unsigned int j = 0; j < 160; j++) {
       int column = j / 10;
-      int col1 = 15 - column;
+      //int col1 = 15 - column;
+      int col1 = column; //correction Dec. 2023 to map sipm from sim to tb
       int row = j % 10;
       int row1 = 9 - row;
       int j1 = 16 * row1 + col1;
